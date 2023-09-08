@@ -95,11 +95,6 @@ function SignUp(){
           <Button variant="primary" type="submit" onClick={signUpHandler}>
             Sign Up
           </Button>
-          <div>
-            <p>
-              Already have an account?<button>Log In</button>
-            </p>
-          </div>
         </Form>
       );
     }
