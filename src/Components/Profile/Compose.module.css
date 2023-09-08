@@ -1,10 +1,5 @@
 .form {
-    padding: 3rem;
-    border: 1px solid rgb(148, 144, 144);
-    padding-top: 0;
-    margin: 1rem;
-    border-radius: 5px;
-
+   width:90%;
 }
 .to {
     display: flex;

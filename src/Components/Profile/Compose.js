@@ -2,13 +2,13 @@ import { convertToHTML } from "draft-convert";
 import { EditorState } from "draft-js";
 import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Form } from "react-bootstrap";
-import classes from './Profile.module.css';
-import { InputGroup } from "react-bootstrap";
+import  Form  from "react-bootstrap/Form";
+import classes from './Compose.module.css';
+import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { Editor } from "react-draft-wysiwyg";
 
-const Profile =()=>{
+const Compose =()=>{
    const sendToEmailInputRef = useRef();
    const subInputRef = useRef();
    const formRef = useRef();
@@ -81,4 +81,4 @@ const Profile =()=>{
   );
 };
 
-export default Profile;
+export default Compose;

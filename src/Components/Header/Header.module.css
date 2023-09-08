@@ -3,8 +3,11 @@
 }
 
 .brand{
-    font-weight: bold;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 30px;
-    color: rgb(23, 56, 117);
+    font-weight: bold !important;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important;
+    font-size: 25px !important;
+    color: rgb(23, 56, 117)!important;
+}
+.headone{
+    border-bottom: 2px solid gray;
 }

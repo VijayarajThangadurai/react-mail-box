@@ -1,8 +1,10 @@
 import React from "react";
 import { Container, Navbar } from "react-bootstrap";
 import classes from './Header.module.css';
+import { useSelector } from "react-redux";
 
 function Header(){
+    const auth = useSelector(state=>state.auth)
     return (
         <Navbar className={classes["bg-body-tertiary"]}>
             <Container>
@@ -10,7 +12,7 @@ function Header(){
             <Navbar.Toggle/>
             <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-                Signed in as : <a href="#login">Marsh Mello</a>
+                Signed in as : <a href="#login">{auth.email}</a>
             </Navbar.Text>
             </Navbar.Collapse>
             </Container>
