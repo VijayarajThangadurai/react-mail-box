@@ -15,4 +15,12 @@
 .mailCon Button {
     border: none;
     width: 10rem;
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.mailCon p{
+    align-items: center;
 }

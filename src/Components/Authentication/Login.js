@@ -5,13 +5,14 @@ import { authActions } from "../../store/auth-slice";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { inboxItemFill } from "../../store/inbox-slice";
 
 function LogIn(){
  const emailInputRef = useRef();
  const passInputRef = useRef();
  const [inputRequire, setInputRequire] = useState(false);
  const dispatch = useDispatch();
- const auth = useSelector(state=> state.auth);
+ const auth = useSelector((state)=> state.auth);
  const navigate = useNavigate();
 
  const loginSubmitHandler = async (event) => {
@@ -43,6 +44,7 @@ function LogIn(){
         if(resLogin.ok){
             console.log("Logged IN");
             dispatch(authActions.login({tokenId:data.idToken, email: enteredEmail}));
+            dispatch(inboxItemFill(enteredEmail));
             navigate('/profile',{replace: true});
         }else{
             throw new Error("Login failed.");

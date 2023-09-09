@@ -1,34 +1,29 @@
 import React, {Fragment}from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { inboxActions } from "../../store/inbox-slice";
+import { inboxActions, inboxItemFill } from "../../store/inbox-slice";
 import { Button } from "react-bootstrap";
 import classes from './SideBar.module.css';
 const SideBar =()=>{
 const navigate = useNavigate();
-const auth =useSelector(state=>state.auth);
-const inboxItem =useSelector(state=> state.inbox);
+const auth =useSelector((state)=>state.auth);
+const inboxItem =useSelector((state)=> state.inbox);
 const dispatch = useDispatch();
+const inboxItems = useSelector((state)=>state.inbox.inboxItems);
 
 const composeClickHandler =()=>{
     navigate('/profile/compose',{repalce: true});
-}
+};
 const inboxClickHandler=async()=>{
 navigate('/profile/inbox',{replace:true});
-
-const email = auth.email.replace(/[\.@]/g, "");
-try{
-    const resInbox = await fetch(`https://mailboxreact-default-rtdb.firebaseio.com/${email}/recievedEmails.json`);
-    const data = await resInbox.json();
-    console.log(Object.values(data));
-
-    if(resInbox.ok){
-        dispatch(inboxActions.addItems(Object.values(data)))
+dispatch(inboxItemFill(auth.email));
+};
+let totalUnread = 0;
+inboxItems.forEach((element) => {
+    if(element[1].unread){
+        totalUnread++;
     }
-} catch(error){
-    alert(error);
-}
-}
+});
 return(
     <Fragment>
         <div className={classes.mailCon}>
@@ -44,7 +39,8 @@ return(
                 <tr>
                     <td>
                         <Button variant="outline-secondary" onClick={inboxClickHandler}>
-                            Inbox</Button>
+                            Inbox<p style={{color:"red"}}>unread {totalUnread}</p>
+                            </Button>
                     </td>
                 </tr>
                 <tr>

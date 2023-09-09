@@ -26,3 +26,12 @@
     border-radius: 10px;
     height: 63vh;
 }
+.ccBtn {
+    border: none;
+    background: none;
+}
+
+.invalid {
+    border-color: rgb(124, 35, 35);
+    box-shadow: 0 0 5px 2px rgba(124, 35, 35, 0.5);
+}

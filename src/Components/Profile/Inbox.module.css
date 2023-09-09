@@ -10,5 +10,8 @@
 }
 .inboxCon {
     width: 100%;
-    border: 1px solid black;
+}
+
+.unreadRow{
+    font-weight: bold;
 }
