@@ -6,7 +6,6 @@ import { BsPersonCircle } from "react-icons/bs";
 const SentMessageRead =()=>{
 const messageOpen = useSelector((state)=>state.sentbox.sentMessageOpen);
 console.log(messageOpen);
-}
 
 return (
     <section className={classes.messageCon}>
@@ -24,6 +23,7 @@ return (
             />
         </section>
     </section>
-)
+);
+};
 
 export default SentMessageRead;

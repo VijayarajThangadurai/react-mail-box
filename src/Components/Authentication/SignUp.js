@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import {Button} from "react-bootstrap";
+import classes from './SignUp.module.css';
 function SignUp(){
     const emailInputRef = useRef();
     const passInputRef = useRef();
@@ -17,6 +18,11 @@ function SignUp(){
         const enteredConPass = conPassInputRef.current.value;
         if (enteredEmail === "" || enteredPass === "" || enteredConPass === "") {
           setInputRequire(true);
+          return;
+        }
+        const extension = enteredEmail.split('@');
+        if(extension[1] !== 'metro.com'){
+          alert('Your email extension sholud be metro.com. eg.name@metro.com');
           return;
         }
         setInputRequire(false);
@@ -60,7 +66,7 @@ function SignUp(){
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="Enter email (name@metro.com)"
               ref={emailInputRef}
               required
             />
@@ -73,7 +79,7 @@ function SignUp(){
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="Password minimum length 6"
               ref={passInputRef}
               required
             />

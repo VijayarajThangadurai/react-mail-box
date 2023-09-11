@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Card from "../UI/Card";
 
 import classes from "./Authentication.module.css";
@@ -17,9 +18,11 @@ const Authentication = () => {
       <Card>
         {!isLoginVisible && <SignUp/>}
         {isLoginVisible && <LogIn/>}
-        <div>
+        <div className={classes.lowerCon}>
           <p>
-            {!isLoginVisible? "Already Have An Account?" : "Create A New Account."}<button onClick={switchHandler}>{!isLoginVisible? "Log In" : "Sign Up"}</button>
+            {!isLoginVisible? "Already Have An Account?" : "Create A New Account."}
+            <button onClick={switchHandler}>
+              {!isLoginVisible? "Log In" : "Sign Up"}<Link/></button>
           </p>
         </div>
         <SignUp />

@@ -5,3 +5,12 @@
     align-items: center;
     margin: 3rem;
 }
+.switchBtn{
+    border:none;
+    background: none;
+}
+
+.lowerCon{
+    padding: 1rem;
+    padding-bottom: 0;
+}

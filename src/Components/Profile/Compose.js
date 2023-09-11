@@ -15,6 +15,7 @@ const Compose =()=>{
    const auth = useSelector((state)=> state.auth);
    const [emptyEmail, setEmptyEmail] = useState();
    const [editorState, updateEditorState] =useState(EditorState.createEmpty());
+   const [successFullySentMail, updateSuccessFullySentMail] = useState(false);
    const sendEmailHandler = async (e) =>{
     e.preventDefault();
     if(sendToEmailInputRef.current.value == ""){
@@ -44,8 +45,9 @@ const Compose =()=>{
             },
         }
         );
+        updateSuccessFullySentMail(true);
     }catch(error){
-        console.log(error);
+        alert(error);
     }
     console.log(auth.email);
     const emailObj2 = {
@@ -79,9 +81,13 @@ const Compose =()=>{
 
     formRef.current.reset();
     updateEditorState("");
+    setTimeout(()=>{
+      updateSuccessFullySentMail(false);
+    },5000);
   };
    return(
     <section className={classes.form}>
+      {successFullySentMail && <p style={{color:"green"}}>SuccessFully sent mail.</p>}
       <h1>Welcome to Metro mail</h1>
       <Form ref={formRef}>
         <p style={{color:"red"}}>{emptyEmail}</p>
