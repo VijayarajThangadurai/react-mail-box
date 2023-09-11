@@ -1,10 +1,11 @@
 import React from "react";
 import {Table} from "react-bootstrap";
 import classes from './Inbox.module.css';
-import { useDispatch,useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { inboxActions } from "../../store/inbox-slice";
 import {GoDotFill, GoDot} from "react-icons/go";
+import {MdDelete} from "react-icons/md";
 const Inbox =()=>{
   const inboxItem = useSelector(state=> state.inbox.inboxItems)
   //console.log(inboxItem);
@@ -38,6 +39,17 @@ const Inbox =()=>{
         alert(error);
     }
   };
+  const clickDeleteHandler = async (deleteItem)=>{
+    dispatch(inboxActions.removeItem(deleteItem));
+    const email = auth.email.replace(/[\.@]/g, "");
+    try{
+        const resDlt = await fetch(`https://mailboxreact-default-rtdb.firebaseio.com/${email}/recievedEmails/${deleteItem[0]}.json`,{
+            method:"DELETE"
+        });
+    }catch(error){
+     alert(error);
+    }
+  };
   return(
     <section className={classes.inboxCon}>
         <h3>Inbox</h3>
@@ -66,6 +78,16 @@ const Inbox =()=>{
                         <td>{i[1].emailSub}</td>
                         <td>{i[1].from}</td>
                         <td>{i[1].date}</td>
+                        <td>
+                            <button
+                            onClick={(e)=>{
+                                e.stopPropagation();
+                                clickDeleteHandler(i);
+                            }}
+                            >
+                                <MdDelete style={{color:"red", border:"black"}}/>
+                            </button>
+                        </td>
                     </tr>
                 })}
             </tbody>
