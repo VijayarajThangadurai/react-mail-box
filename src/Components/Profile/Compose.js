@@ -18,10 +18,10 @@ const Compose =()=>{
    const [successFullySentMail, updateSuccessFullySentMail] = useState(false);
    const sendEmailHandler = async (e) =>{
     e.preventDefault();
-    if(sendToEmailInputRef.current.value == ""){
-      setEmptyEmail("*Please eter recipient email")
+    if(sendToEmailInputRef.current.value === ""){
+      setEmptyEmail("*Please eter recipient email");
       setTimeout(()=>{
-        setEmptyEmail(null)
+        setEmptyEmail(null);
       },10000);
       return;
     }
@@ -31,9 +31,10 @@ const Compose =()=>{
         emailSub: subInputRef.current.value,
         emailContent: convertToHTML(editorState.getCurrentContent()),
         date: new Date(),
+        unread: true,
     };
     try{
-        const senderEmail = auth.email.replace(/[\.@]/g, "");
+        const senderEmail = auth.email.replace(/[.@]/g, "");
         const res = fetch(
             `https://mailboxreact-default-rtdb.firebaseio.com/${senderEmail}/sentEmails.json`,
             {method: "POST",
@@ -46,6 +47,9 @@ const Compose =()=>{
         }
         );
         updateSuccessFullySentMail(true);
+        if(res.ok){
+          console.log('sent');
+        }
     }catch(error){
         alert(error);
     }
@@ -56,11 +60,11 @@ const Compose =()=>{
       emailSub: subInputRef.current.value,
       emailContent: convertToHTML(editorState.getCurrentContent()),
       date: new Date(),
-      unread: true
+      unread: true,
     };
     try {
       const recieverEmail = sendToEmailInputRef.current.value.replace(
-        /[\.@]/g,
+        /[.@]/g,
         ""
       );
       const res = fetch(
@@ -75,6 +79,9 @@ const Compose =()=>{
           },
         }
       );
+      if(res.ok){
+        console.log('sent')
+      }
     } catch (error) {
       alert(error);
     }

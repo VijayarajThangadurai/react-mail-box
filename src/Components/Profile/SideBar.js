@@ -5,10 +5,10 @@ import {  inboxItemFill } from "../../store/inbox-slice";
 import { Button } from "react-bootstrap";
 import classes from './SideBar.module.css';
 import { sentboxItemFill } from "../../store/sentbox-slice";
+import 'bootstrap/dist/css/bootstrap.min.css';
 const SideBar =()=>{
 const navigate = useNavigate();
 const auth =useSelector((state)=>state.auth);
-const inboxItem =useSelector((state)=> state.inbox);
 const dispatch = useDispatch();
 const inboxItems = useSelector((state)=>state.inbox.inboxItems);
 
@@ -33,7 +33,7 @@ const sentboxClickHandler = async()=>{
 return(
     <Fragment>
         <div className={classes.mailCon}>
-        <table>
+        <table className="d-md-table">
             <tbody>
                 <tr>
                     <td>

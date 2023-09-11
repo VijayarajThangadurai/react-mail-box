@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {Table} from "react-bootstrap";
 import classes from './Inbox.module.css';
 import { useSelector } from "react-redux";
@@ -7,9 +7,7 @@ import { inboxActions } from "../../store/inbox-slice";
 import {GoDotFill, GoDot} from "react-icons/go";
 import {MdDelete} from "react-icons/md";
 const Inbox =()=>{
-  const inboxItem = useSelector(state=> state.inbox.inboxItems)
-  //console.log(inboxItem);
-  const [loading,setLoading] = useState(false);
+  const inboxItem = useSelector(state=> state.inbox.inboxItems);
   const navigate= useNavigate();
   const dispatch = useNavigate();
   const auth = useSelector((state)=> state.auth);
@@ -17,7 +15,7 @@ const Inbox =()=>{
     console.log(item);
     navigate("/profile/inbox/message",{replace:true});
     dispatch(inboxActions.addMessageOpen(item));
-    const email = auth.email.replace(/[\.@]/g,"");
+    const email = auth.email.replace(/[.@]/g,"");
     try{
         const resEmail = await fetch(
             `https://mailboxreact-default-rtdb.firebaseio.com/${email}/recievedEmails/${item[0]}.json`,
@@ -36,17 +34,23 @@ const Inbox =()=>{
                 },
             }
         );
+        if(!resEmail.ok){
+            throw Error('error')
+        }
     }catch(error){
         alert(error);
     }
   };
   const clickDeleteHandler = async (deleteItem)=>{
     dispatch(inboxActions.removeItem(deleteItem));
-    const email = auth.email.replace(/[\.@]/g, "");
+    const email = auth.email.replace(/[.@]/g, "");
     try{
         const resDlt = await fetch(`https://mailboxreact-default-rtdb.firebaseio.com/${email}/recievedEmails/${deleteItem[0]}.json`,{
             method:"DELETE"
         });
+        if(!resDlt.ok){
+            throw Error('Failed to delete')
+        }
     }catch(error){
      alert(error);
     }
@@ -54,7 +58,6 @@ const Inbox =()=>{
   return(
     <section className={classes.inboxCon}>
         <h3>Inbox</h3>
-        {loading && <h5>Loading...</h5>}
         <Table striped hover>
             <thead>
                 <tr>
@@ -65,11 +68,12 @@ const Inbox =()=>{
                 </tr>
             </thead>
             <tbody>
-                {inboxItem.map((i)=>{
+                {inboxItem.map((i)=>(
                     <tr
+                    className={classes.tblRow}
                     onClick={()=>clickEmailHandler(i)}
-                    className={i[1].unread? classes.unreadRow: ""}
-                    key={i[0]}
+                    //className={i[1].unread ? classes["unreadRow"]: ""}
+                    key={i[1].id}
                     >
                         <td>
                             {i[1].unread?(
@@ -91,7 +95,7 @@ const Inbox =()=>{
                             </button>
                         </td>
                     </tr>
-                })}
+                ))}
             </tbody>
         </Table>
     </section>

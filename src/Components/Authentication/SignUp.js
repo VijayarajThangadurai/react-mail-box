@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import {Button} from "react-bootstrap";
-import classes from './SignUp.module.css';
 function SignUp(){
     const emailInputRef = useRef();
     const passInputRef = useRef();

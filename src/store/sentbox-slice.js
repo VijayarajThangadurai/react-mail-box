@@ -20,18 +20,23 @@ const sentboxSlice = createSlice({
         removeItem(state, action){
             const filterItems= state.sentboxItems.filter(element=>element[0]!== action.payload[0]);
             state.sentboxItems = filterItems;
+        },
+        onLogoutSentboxNull(state){
+            state.sentboxItems=[]
         }
-    }
+    },
 });
 export const sentboxActions = sentboxSlice.actions;
 export const sentboxItemFill = (email)=>{
     return async (dispatch)=>{
         try{
-            const userEmail = email.replace(/[\.@]/g,"");
+            const userEmail = email.replace(/[.@]/g,"");
             const resSentbox = await fetch(`https://mailboxreact-default-rtdb.firebaseio.com/${userEmail}/sentEmails.json`);
             const data = await resSentbox.json();
-            if(resSentbox.ok){
+            if(resSentbox.ok && data !== null){
                 dispatch(sentboxActions.addItems(Object.entries(data)));
+            }else if(!resSentbox.ok){
+                throw Error('Failed to fetch sentbox.')
             }
         }catch(error){
             alert(error);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Routes , Route} from 'react-router-dom';
 import './App.css';
 import Authentication from './Components/Authentication/Authentication';
@@ -16,33 +16,44 @@ import SentMessageRead from './Components/Profile/SentMessageRead';
 
 function App() {
   const dispatch= useDispatch();
-  const auth = useSelector(state=> state.auth)
+  const auth = useSelector((state)=> state.auth)
+  const intervalRef = useRef(null);
+
   useEffect(()=>{
-    if(localStorage.getItem('userEmail')){
+    if(auth.isLoggedIn){
+      dispatch(inboxItemFill(auth.email));
+      dispatch(sentboxItemFill(auth.email));
+    }
+  });
+  useEffect(()=>{
+    if(auth.isLoggedIn){
     dispatch(inboxItemFill(localStorage.getItem('userEmail')))
     dispatch(sentboxItemFill(localStorage.getItem('userEmail')))
-    }
-  }, [])
-  setInterval(()=>{
-    if(localStorage.getItem('userEmail')){
-    dispatch(inboxItemFill(localStorage.getItem('userEmail')))
-    dispatch(sentboxItemFill(localStorage.getItem('userEmail')))
-    console.log('render');
-    }
-  }, 2000);
+    intervalRef.current = setInterval(()=>{
+        dispatch(inboxItemFill(localStorage.getItem('userEmail')))
+        dispatch(sentboxItemFill(localStorage.getItem('userEmail')))
+        console.log('render');
+      }, 2000);
+  }
+return ()=>{
+  clearInterval(intervalRef.current);
+};
+  },[auth.isLoggedIn,dispatch,auth.email]);
+   
   return (
     <div className="App">
     <Routes>
         <Route path="/" element={<RootLayout />}/>
           <Route index element={<Authentication />} />
-          {auth.isLoggedIn && <Route path="/profile" element={<Root2Layout />} exact>
+          {auth.isLoggedIn && (<Route path="/profile" element={<Root2Layout />} exact>
             <Route index element={<Profile/>}/>
             <Route path="/profile/compose" element={<Compose />} exact/>
             <Route path="/profile/inbox" element={<Inbox />} exact/>
             <Route path="/profile/inbox/message" element={<EmailMessage/>} exact/>
             <Route path="/profile/sentbox" element={<SentBox/>} exact/>
             <Route path="/profile/sentbox/message" element={<SentMessageRead/>} exact/>
-          </Route>}
+          </Route>
+          )}
       </Routes>
     </div>
   );

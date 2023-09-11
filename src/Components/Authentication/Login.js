@@ -1,5 +1,5 @@
 import React ,{useRef,useState}from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authActions } from "../../store/auth-slice";
 import { Button } from "react-bootstrap";
@@ -12,7 +12,6 @@ function LogIn(){
  const passInputRef = useRef();
  const [inputRequire, setInputRequire] = useState(false);
  const dispatch = useDispatch();
- const auth = useSelector((state)=> state.auth);
  const navigate = useNavigate();
 
  const loginSubmitHandler = async (event) => {
@@ -42,7 +41,7 @@ function LogIn(){
         );
         const data = await resLogin.json();
         if(resLogin.ok){
-            console.log("Logged IN");
+           // console.log("Logged IN");
             dispatch(authActions.login({tokenId:data.idToken, email: enteredEmail}));
             dispatch(inboxItemFill(enteredEmail));
             navigate('/profile',{replace: true});

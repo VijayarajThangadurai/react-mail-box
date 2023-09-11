@@ -23,11 +23,14 @@ const SentBox = () => {
     const clickDeleteHandler = async (deleteItem) => {
       // console.log(item);
       dispatch(sentboxActions.removeItem(deleteItem));
-      const email = auth.email.replace(/[\.@]/g, "");
+      const email = auth.email.replace(/[.@]/g, "");
       try {
           const resDlt = await fetch(`https://mailboxreact-default-rtdb.firebaseio.com/${email}/sentEmails/${deleteItem[0]}.json`,{
               method: 'DELETE'
           })
+          if(!resDlt.ok){
+            throw Error('Failed to delete')
+          }
       } catch(error) {
           alert(error);
       }
