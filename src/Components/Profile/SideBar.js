@@ -1,9 +1,10 @@
 import React, {Fragment}from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { inboxActions, inboxItemFill } from "../../store/inbox-slice";
+import {  inboxItemFill } from "../../store/inbox-slice";
 import { Button } from "react-bootstrap";
 import classes from './SideBar.module.css';
+import { sentboxItemFill } from "../../store/sentbox-slice";
 const SideBar =()=>{
 const navigate = useNavigate();
 const auth =useSelector((state)=>state.auth);
@@ -24,6 +25,11 @@ inboxItems.forEach((element) => {
         totalUnread++;
     }
 });
+
+const sentboxClickHandler = async()=>{
+    navigate("/profile/sentbox",{replace:true});
+    dispatch(sentboxItemFill(auth.email));
+};
 return(
     <Fragment>
         <div className={classes.mailCon}>
@@ -45,7 +51,7 @@ return(
                 </tr>
                 <tr>
                     <td>
-<Button variant="outline-success">Sentbox</Button>
+<Button variant="outline-success" onClick={sentboxClickHandler}>Sentbox</Button>
                     </td>
                 </tr>
                 <tr>
