@@ -7,7 +7,7 @@ import classes from './Compose.module.css';
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import { Editor } from "react-draft-wysiwyg";
-
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const Compose =()=>{
    const sendToEmailInputRef = useRef();
    const subInputRef = useRef();
